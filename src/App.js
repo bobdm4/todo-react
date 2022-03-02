@@ -1,16 +1,27 @@
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import './styles/App.css'
 import { PostList } from './components/PostList'
-import { MyButton } from './UI/button/MyButton'
-import { MyInput } from './UI/input/MyInput'
 import { PostForm } from './components/PostForm'
+import { PostFilter } from './components/PostFilter'
 
 function App() {
   const [posts, setPosts] = useState([
     { id: 1, title: 'JS', body: 'Desk' },
-    { id: 2, title: 'JS2 ', body: 'Desk' },
-    { id: 3, title: 'JS3', body: 'Desk' },
+    { id: 2, title: 'pyton ', body: 'Desk' },
+    { id: 3, title: 'java', body: 'Desk' },
   ])
+  const [filter, setFilter] = useState({ sort: '', query: '' })
+
+  const sortedPosts = useMemo(() => {
+    if (filter.sort) {
+      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
+    }
+    return posts
+  }, [filter.sort, posts])
+
+  const searchedAndsortedPosts = useMemo(() => {
+    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
+  }, [filter.query, sortedPosts])
 
   const createPost = newPost => {
     setPosts([...posts, newPost])
@@ -23,11 +34,9 @@ function App() {
   return (
     <div className='App'>
       <PostForm create={createPost} />
-      {posts.length ? (
-        <PostList remove={removePost} posts={posts} title='Cписок постов' />
-      ) : (
-        <h1 style={{ textAlighn: 'center' }}>Посты не найдены</h1>
-      )}
+      <hr style={{ margin: '15px 0' }} />
+      <PostFilter filter={filter} setFilter={setFilter} />
+      <PostList remove={removePost} posts={searchedAndsortedPosts} title='Cписок постов' />
     </div>
   )
 }
