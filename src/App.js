@@ -3,6 +3,8 @@ import './styles/App.css'
 import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
 import { PostFilter } from './components/PostFilter'
+import { MyModal } from './UI/modal/MyModal'
+import { MyButton } from './UI/button/MyButton'
 
 function App() {
   const [posts, setPosts] = useState([
@@ -11,6 +13,7 @@ function App() {
     { id: 3, title: 'java', body: 'Desk' },
   ])
   const [filter, setFilter] = useState({ sort: '', query: '' })
+  const [modal, setModal] = useState(false)
 
   const sortedPosts = useMemo(() => {
     if (filter.sort) {
@@ -33,7 +36,13 @@ function App() {
 
   return (
     <div className='App'>
-      <PostForm create={createPost} />
+      <MyButton style={{ marginTop: '15px' }} onClick={() => setModal(true)}>
+        Создать пост
+      </MyButton>
+      <MyModal visible={modal} setVisible={setModal}>
+        <PostForm create={createPost} setVisible={setModal} />
+      </MyModal>
+
       <hr style={{ margin: '15px 0' }} />
       <PostFilter filter={filter} setFilter={setFilter} />
       <PostList remove={removePost} posts={searchedAndsortedPosts} title='Cписок постов' />
