@@ -1,5 +1,4 @@
 import React from 'react'
-import App from './../App'
 import { MyButton } from './../UI/button/MyButton'
 
 export const PostItem = props => {
