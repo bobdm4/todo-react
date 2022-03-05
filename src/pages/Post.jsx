@@ -38,7 +38,7 @@ export const Post = () => {
         <div>
           <h4 style={{ marginTop: 15 }}>Комментарии</h4>
           {comments.map(comm => (
-            <div>
+            <div key={comm.email}>
               <h5 style={{ marginTop: 15 }}>{comm.email}</h5>
               <p>{comm.body}</p>
             </div>

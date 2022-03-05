@@ -2,7 +2,7 @@ import React from 'react'
 
 export const About = () => {
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <h1>Описание</h1>
       <ul>
         <li>CRUD элементов;</li>
